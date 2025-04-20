@@ -7,48 +7,78 @@ import gamewindow as gw
 
 # constants
 SHOOTER_SIZE = 0.1
-SHOOTER_DIST = 0.1
 SHOOTER_SPEED = 3
-SHOOTER_COLOR = stddraw.BLUE
+
+pos_x = gw.X_MAX/2
+pos_y = 1
+
 
 class SHOOTER:
     x : float
-    y : float
-    
-    def shooter_motion(self, pos_x, pos_y):
-        self.x = pos_x
-        self.y = pos_y
+    y : float 
+    pic : str
 
+    def health_status(self,health, damage):
+        self.health = health
+        self.health -= damage
+         
+    def dead(self):
+        if self.health < 0:
+            return self.health = 0
+    
+    def alive(self):
+        return self.health > 0
+
+def health_bar(shooter):
+    stddraw.setPenColor(stddraw.RED)
+    stddraw.filledRectangle(1, 9.5, 8, 0.5)
+    stddraw.setPenColor(stddraw.GREEN)
+    stddraw.filledRectangle(1, 9.5, 8*(shooter.health/100),0.5)
+
+    while True:
+        stddraw.health_bar(100)
+        stddraw.show()
+
+        if stddraw.hasNextKeyTyped():
+            key = stddraw.nextKeyTyped()
+            if key == 'd':
+                shooter.health_status(5)
+        
+        if dead():
+            stdio.writeln("Player is dead!")
+            break
+
+def draw_shooter(self):
+    pic = Picture('shooter')
+    stddraw.picture(pic, self.x,self.y)
+
+    
+        
+def shooter_motion(self, pos_x, pos_y):
+    self.x = pos_x
+    self.y = pos_y
+    
+    while True:
+        if stddraw.hasNextKeyTyped():
+            keys = stddraw.nextKeyTyped()
+            if keys == stddraw.K_LEFT:
+                pos_x -= SHOOTER_SPEED
+            elif keys == stddraw.K_RIGHT:
+                pos_x += SHOOTER_SPEED
+            elif keys == stddraw.K_DOWN:
+                pos_y -= SHOOTER_SPEED
+            elif keys == stddraw.K_UP:
+                pos_y += SHOOTER_SPEED
+            elif keys == stddraw.K_ESCAPE:
+                break
+            
         # Boundary conditions
         pos_x = max(SHOOTER_SIZE/2,min(gw.X_MAX - SHOOTER_SIZE/2, pos_x))
         pos_y = max(SHOOTER_SIZE/2,min(gw.Y_MAX - SHOOTER_SIZE/2, pos_y))
+       
+def main():
     
-    def move_shooter(self, pos_x, pos_y):
-        self.x = pos_x
-        self.y = pos_y
-        
-        keys = stddraw.getKeysPressed()
-        if keys[stddraw.K_LEFT]:
-            pos_x -= SHOOTER_SPEED
-        if keys[stddraw.K_RIGHT]:
-            pos_x += SHOOTER_SPEED
-        if keys[stddraw.K_DOWN]:
-            pos_y -= SHOOTER_SPEED
-        if keys[stddraw.K_UP]:
-            pos_y += SHOOTER_SPEED
-        if keys[stddraw.K_q]:
-            break
-        
-    def draw_shooter(self):
-        stddraw.setPenColor(SHOOTER_COLOR)
-        stddraw.filledSquare(self.x,self.y, SHOOTER_SIZE/2)
-        
-
-        
-
-def main() -> None:  # Need the return type for mypy to type-check the body
-
-
+  
 
 if __name__ == "__main__":
     main()
