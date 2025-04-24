@@ -31,6 +31,7 @@ class Shooter:
             gameover()
             
     def shoot(self):
+        self.missiles = []
         angle_rad = math.radians(self.shooting_angle)
         vel_x = missile_speed * math.cos(angle_rad)
         vel_y = missile_speed * math.sin(angle_rad)
@@ -53,15 +54,15 @@ class Shooter:
                 RIGHT = False
                 
     def update_aim(self, angle_change):
-        while aim_angle<math.radians(180) and aim_angle>math.radians(0):
+        if 0 < self.aim_angle < math.radians(180):
             self.aim_angle += angle_change
                             
     def update_pos(self,missiles):
         if stddraw.hasNextKeyTyped():
             key = stddraw.nextKeyTyped()
-            if key == stddraw.K_LEFT:
+            if key == stddraw.KEY_LEFT:
                 pos_x -= shooter_speed
-            elif key == stddraw.K_RIGHT:
+            elif key == stddraw.KEY_RIGHT:
                 pos_x += shooter_speed
             elif key == K_LEFT:
                 shooter.update_aim(angle_change)
